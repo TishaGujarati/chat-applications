@@ -1,24 +1,13 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import socket from '../utils/WebSocket';
+import React, { createContext, useContext, useState, useCallback } from 'react';
 
 const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
 
-  useEffect(() => {
-    socket.on('chat message', (message) => {
-      setMessages((prevMessages) => [...prevMessages, message]);
-    });
-
-    return () => {
-      socket.disconnect();
-    };
+  const sendMessage = useCallback((message) => {
+    setMessages((prevMessages) => [...prevMessages, message]);
   }, []);
-
-  const sendMessage = (message) => {
-    socket.emit('chat message', message);
-  };
 
   return (
     <ChatContext.Provider value={{ messages, sendMessage }}>
@@ -27,4 +16,10 @@ export const ChatProvider = ({ children }) => {
   );
 };
 
-export const useChat = () => useContext(ChatContext);
+export const useChat = () => {
+  const context = useContext(ChatContext);
+  if (!context) {
+    throw new Error('useChat must be used within a ChatProvider');
+  }
+  return context;
+};

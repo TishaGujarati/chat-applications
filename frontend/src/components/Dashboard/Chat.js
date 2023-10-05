@@ -10,17 +10,13 @@ const Chat = ({ userId, recipientId }) => {
   useEffect(() => {
     chatRef.current.scrollTop = chatRef.current.scrollHeight;
   }, [messages]);
-console.log("userID",userId)
-  const handleSendMessage = () => {
-    // console.log("handle",messageInput)
-    if (messageInput.trim() !== '') {
-      console.log("handle",messageInput)
 
+  const handleSendMessage = () => {
+    if (messageInput.trim() !== '') {
       sendMessage({ from: userId, to: recipientId, content: messageInput });
       setMessageInput('');
     }
   };
-  console.log("messages",messages)
 
   return (
     <div className="container mt-5">
@@ -30,8 +26,8 @@ console.log("userID",userId)
         style={{ height: '300px', overflowY: 'scroll', border: '1px solid #ccc' }}
         className="mb-3"
       >
-        {messages.map((message) => (
-          <div key={message._id}>
+        {messages.map((message, index) => (
+          <div key={index}>
             <p>
               <strong>{message.from}</strong>: {message.content}
             </p>
