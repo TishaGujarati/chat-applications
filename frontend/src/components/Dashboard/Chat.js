@@ -29,7 +29,7 @@ const Chat = ({ userId, recipientId }) => {
         {messages.map((message, index) => (
           <div key={index}>
             <p>
-              <strong>{message.from}</strong>: {message.content}
+              <strong>{message.from}</strong> {message.content}
             </p>
           </div>
         ))}

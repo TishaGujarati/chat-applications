@@ -4,7 +4,7 @@ import { AuthProvider } from './context/AuthContext';
 import { ChatProvider } from './context/ChatContext';
 import Register from './components/Auth/Register';
 import Login from './components/Auth/Login';
-import Chat from './components/Dashboard/Chat';
+import Chat from './components/dashboard/Chat';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {

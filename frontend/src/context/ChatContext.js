@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
+import socket from '../utils/WebSocket'; 
 
 const ChatContext = createContext();
 
@@ -6,7 +7,21 @@ export const ChatProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
 
   const sendMessage = useCallback((message) => {
+    socket.emit('chat message', message);
+
     setMessages((prevMessages) => [...prevMessages, message]);
+  }, []);
+
+  useEffect(() => {
+    const handleChatMessage = (message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
+    };
+
+    socket.on('chat message', handleChatMessage);
+
+    return () => {
+      socket.off('chat message', handleChatMessage);
+    };
   }, []);
 
   return (
